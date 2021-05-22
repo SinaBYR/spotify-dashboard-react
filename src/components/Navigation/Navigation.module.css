@@ -1,0 +1,37 @@
+.Navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    background-color: #f58634;
+    background-color: #ff7d9d;
+    color: #042338;
+    padding: 0 1rem;
+    box-shadow: 0 0 10px #042338;
+    z-index: 10;
+}
+.Login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+.Login:hover {
+    background-color: #fc688d;
+}
+.Logo {
+    font-size: 1.2rem;
+}
+.Plus {
+    background-color: #042338;
+    color: #f58634;
+    color: #ff7d9d;
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+}

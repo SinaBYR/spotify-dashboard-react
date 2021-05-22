@@ -1,0 +1,14 @@
+.Footer {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    color: rgba(250, 149, 174, 0.507);
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+@media (max-height: 500px) and (max-width: 830px) {
+    .Footer {
+        position: relative;
+    }
+  }
