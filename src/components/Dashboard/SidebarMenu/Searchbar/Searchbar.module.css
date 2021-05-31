@@ -1,0 +1,33 @@
+.Form {
+    position: relative;
+}
+.Searchbar {
+    display: block;
+    width: 100%;
+    /* background-color: #ff7d9d; */
+    color: #041b2b;
+    padding: 0.7rem 0.5rem;
+    font-size: 1rem;
+    border: 1px solid transparent;
+    outline: none;
+    border-radius: 20px;
+}
+.Searchbar:focus {
+    border: 1px solid #ff7d9d;
+}
+.Button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background-color: #ff7d9d;
+    color: #041b2b;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+.Button:active {
+    transform: scale(0.95);
+}

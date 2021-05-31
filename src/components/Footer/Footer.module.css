@@ -1,14 +1,20 @@
 .Footer {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    color: rgba(250, 149, 174, 0.507);
-    transform: translateX(-50%);
-    text-align: center;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    color: #fa95ae81;
 }
 
-@media (max-height: 500px) and (max-width: 830px) {
+/* Desktop */
+@media (min-width: 700px) and (min-height: 500px) {
     .Footer {
-        position: relative;
+        background-color: #031827;
     }
-  }
+}
+
+/* Mobile Landscape */
+@media (max-width: 800px) and (max-height: 400px) {
+    .Footer {
+        background-color: none;
+    }
+}

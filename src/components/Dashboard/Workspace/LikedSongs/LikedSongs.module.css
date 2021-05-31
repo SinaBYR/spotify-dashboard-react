@@ -1,0 +1,35 @@
+.LikedSongs {
+    display: grid;
+    gap: 0.5rem;
+}
+.Song {
+    display: grid;
+    grid-template-columns: 50px auto 20px;
+    gap: 0.5rem;
+    background-color: #05243a;
+    background-color: #041522;
+    color: #ff7d9d;
+    padding: 0.5rem;
+}
+.Info {
+    display: grid;
+    align-items: center;
+}
+.Title {
+    font-size: 1.2rem;
+    font-weight: bolder;
+}
+.Artist {
+    font-size: 0.75rem;
+}
+.Icon {
+    width: 50px;
+    height: 50px;
+    background-color: teal;
+}
+.Options {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+}
