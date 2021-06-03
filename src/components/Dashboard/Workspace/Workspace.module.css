@@ -1,0 +1,10 @@
+.Workspace {
+    /* height: 200px; */
+    /* background-color: teal; */
+    padding: 0 1rem;
+}
+.Workspace h2{
+    font-size: 1.7rem;
+    margin: 0.5rem 0;
+    text-align: center;
+}

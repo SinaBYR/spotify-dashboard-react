@@ -1,106 +1,111 @@
-import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import classes from "./App.module.css";
+import Dashboard from './components/Dashboard/Dashboard';
 import Footer from "./components/Footer/Footer";
 import Navigation from "./components/Navigation/Navigation";
 import Redirecting from './components/Redirecting/Redirecting';
-import Layout from './containers/Layout/Layout';
+import Landing from './components/Landing/Landing';
+import axios from 'axios';
 
 
 const App = props => {
-    const [loggedIn, setloggedIn] = useState(false);
-    // const [accessToken, setAccessToken] = useState('');
-    // const [expirationDate, setExpirationDate] = useState('');
-    const [app, setApp] = useState(<Route path="/" render={() => <Layout />}/>);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [accessToken, setAccessToken] = useState(null);
+    const [expirationDate, setExpirationDate] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [profilePic, setProfilePic] = useState(null);
+    const [backdropOpenAlt, setBackdropOpenAlt] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const loginHandler = () => {
-
-        const url = 'https://accounts.spotify.com/authorize?client_id=72f545293f9f4ac593711f8bd95d66c5&response_type=token&redirect_uri=http://localhost:3000/redirecting';
-
-        const features = {
-            width: 450,
-            height: 730,
-            left: (window.screen.width / 2) - (window.width / 2),
-            top: (window.screen.height / 2) - (window.height / 2)
-        }
-        
-        // window.open(url, 'Spotify Authorization' , 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + features.width + ', height=' + features.height + ', top=' + features.top + ', left=' + features.left);
+        const url = 'https://accounts.spotify.com/authorize?client_id=72f545293f9f4ac593711f8bd95d66c5&response_type=token&redirect_uri=http://192.168.1.9:3000/redirecting';
 
         window.location.href = url;
-
     }
 
-    const checkLoggedIn = () => {
-        setloggedIn(true);
-        console.log('lol')
+    const logoutHandler = () => {
+        setBackdropOpenAlt(false);
+        setIsLoggedIn(false);
+        setProfilePic(null);
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('expires_in');
+        setUsername(null);
     }
 
-    // useEffect(() => {
-    //     const accessToken = localStorage.getItem('access_token');
-    //     const expiresIn = localStorage.getItem('expires_in');
+    useEffect(() => {
+        const accessToken = localStorage.getItem('access_token');
+        const expiresIn = localStorage.getItem('expires_in');
 
-    //     console.log(new Date(expiresIn));
+        if(accessToken && expiresIn && new Date() <= new Date(expiresIn)) {
+            setIsLoggedIn(true);
+            setAccessToken(accessToken);
+            setExpirationDate(expiresIn);
+        }
 
-    //     if(accessToken && expiresIn && new Date() <= new Date(expiresIn)) {
-    //         setAccessToken(localStorage.getItem('access_token'));
-    //         setExpirationDate(localStorage.getItem('expires_in'));
-    //     }
-
-    //     console.log('useEffect [App.js]')
-    // }, []);
-
-    // useEffect(() => {
-    //     if(accessToken && expirationDate) {
-    //         setApp(<Redirect to="/dashboard"/>);
-    //     }
-    // }, [accessToken, expirationDate])
-
-    // useEffect(() => {
-
-    // }, [loggedIn])
-
-    // useEffect(() => {
-    //     if(props.isToken) {
-    //         setApp(<Redirect to="/dashboard"/>);
-    //     }
-    // }, [app])
-
-    // let app = (
-    //     <Route path="/" component={Layout} />
-    // )
+    }, [isLoggedIn]);
 
     useEffect(() => {
-        if(props.isToken) {
-            setApp(<Redirect to="/dashboard"/>);
-            // app = (
-            //     <Redirect to="/dashboard"/>
-            // )
+        setLoading(true);
+        const url = 'https://api.spotify.com/v1/me';
+        const config = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            headers: {
+                "Authorization": "Bearer " + accessToken
+            }
+        };
+        if(!accessToken){
+            return false;
         }
-    }, [props.isToken])
+        axios.get(url, config)
+            .then(res => {
+                console.log(res.data);
+                setUsername(res.data.display_name);
+                setProfilePic(res.data.images[0].url);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            })
+            
+    }, [isLoggedIn, isLoggedIn]);
 
-    useEffect(() => {
-        if(loggedIn) {
-            setApp(<Redirect to="/dashboard"/>);
-        }
-    }, [loggedIn])
+    let routes = (
+        <React.Fragment>
+            <Route path="/" render={() => <Landing login={loginHandler}/>}/>
+            <Redirect to="/"/>
+        </React.Fragment>
+    )
+    if(isLoggedIn) {
+        routes = (
+            <React.Fragment>
+                <Route path="/dashboard" render={() => <Dashboard accessToken={accessToken}/>}/>
+                <Redirect to="/dashboard"/>
+            </React.Fragment>
+        )
+    }
 
     return (
         <div className={classes.App}>
-            <Navigation login={loginHandler}/>
+            <Navigation
+                loading={loading}
+                backdropOpenAlt={backdropOpenAlt}
+                authorized={isLoggedIn}
+                username={username}
+                userProfilePicture={profilePic}
+                login={loginHandler}
+                logout={logoutHandler}
+                />
             <Switch>
-                <Route path="/redirecting" render={() => <Redirecting check={() => checkLoggedIn()}/>} />
-                {app}
+                <Route path="/redirecting" component={Redirecting}/>
+                {routes}
             </Switch>
             <Footer />
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        isToken: state.auth.accessToken !== null
-    }
-}
 
-export default connect(mapStateToProps)(App);
+export default App;
