@@ -1,0 +1,46 @@
+.Landing {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    height: 100%;
+    /* background-color: teal; */
+    /* padding-top: 4rem; */
+    text-align: center;
+}
+.Content > * {
+    margin-bottom: 1.5rem;
+}
+.Content h1 {
+    font-size: 1.8rem;
+}
+.Content p {
+    display: block;
+    color: #fa95ae;
+    padding: 0 0.5rem;
+}
+.PlayIcon {
+    width: 100%;
+    font-size: 10rem;
+}
+
+@media (min-width: 500px) and (min-height: 400px) {
+    .Landing {
+        position: static;
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        justify-content: space-evenly;
+        align-items: center;
+        text-align: left;
+    }
+    .PlayIcon {
+        font-size: 20rem;
+    }
+    .Content h1 {
+        font-size: 4rem;
+    }
+    .Content p {
+        padding: 0;
+        font-size: 1.3rem;
+    }
+}
