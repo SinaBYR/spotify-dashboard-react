@@ -1,6 +1,0 @@
-.Dashboard {
-    display: grid;
-    grid-template-rows: 20% 80%;
-    grid-template-rows: 150px auto;
-    /* background-color: #053758; */
-}
