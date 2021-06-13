@@ -1,0 +1,23 @@
+.LikedSongs {
+    display: grid;
+    gap: 0.5rem;
+    overflow: auto;
+}
+.PageNavigation {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.Prev {
+    background-color: #ff7d9d;
+    color: #05243a;
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+}
+.Next {
+    background-color: #ff7d9d;
+    color: #05243a;
+    padding: 0.5rem 1rem;
+    margin: 0 0.2rem;
+}
