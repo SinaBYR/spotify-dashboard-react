@@ -1,7 +1,6 @@
-.LikedSongs {
+.PlaylistSongs {
     display: grid;
     gap: 0.5rem;
-    overflow: auto;
 }
 .PageNavigation {
     padding: 1rem 0;

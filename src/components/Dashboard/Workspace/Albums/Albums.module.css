@@ -23,12 +23,14 @@
     /* gap: 0.1rem; */
 }
 .Title {
+    color: #bebebe;
     font-size: 1.1rem;
     font-weight: bolder;
+    margin-top: 0.5rem;
     letter-spacing: 1px;
 }
 .Artist {
-    color: #ffa4bb94;
+    color: gray;
     font-size: 1rem;
     font-weight: 400;
     margin: 0.5rem 0;

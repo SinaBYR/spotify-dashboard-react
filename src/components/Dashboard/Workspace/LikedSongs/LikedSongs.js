@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import SongSkeleton from "../../../UI/Skeletons/SongSkeleton/SongSkeleton";
 import axios from "axios";
 import React from "react";
+import Song from "./Song/Song";
 
 const LikedSongs = props => {
     const [songs, setSongs] = useState([]);
@@ -32,29 +33,16 @@ const LikedSongs = props => {
 
     console.log('hi')
     if(!props.loading && props.data.songs.length){
-        displayedSongs = props.data.songs.map((song, index) => {
-            let artists = song.track.artists.map(artist => {
+        displayedSongs = props.data.songs.map((eachSong, index) => {
+            let artists = eachSong.track.artists.map(artist => {
                 return artist.name;
             })
             .join(', ');
 
-            return (
-                <div className={classes.Song} key={song.track.name + index}>
-                    <div className={classes.Cover}>
-                        <img src={song.track.album.images[0].url} alt="cover"/>
-                    </div>
-                    <div className={classes.Info}>
-                        <div className={classes.Title}>{song.track.name}</div>
-                        <div className={classes.Artist}>{artists}</div>
-                    </div>
-                    <div className={classes.Options}>
-                        <BsThreeDotsVertical />
-                    </div>
-                </div>
-            )
+            return <Song trackName={eachSong.track.name} cover={eachSong.track.album.images[0].url} artists={artists} key={index}/>
         })
     }
-    let pageNavigationButtons;
+    console.log(displayedSongs);
     return (
         <div className={classes.LikedSongs}>
             {displayedSongs}

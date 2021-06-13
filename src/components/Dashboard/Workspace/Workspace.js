@@ -5,6 +5,7 @@ import axios from 'axios';
 import LikedSongs from "./LikedSongs/LikedSongs"
 import Albums from "./Albums/Albums";
 import Artists from "./Artists/Artists";
+import Playlists from "./Playlists/Playlists";
 
 const Workspace = props => {
     const [loading, setLoading] = useState(false);
@@ -24,6 +25,13 @@ const Workspace = props => {
     });
     const [artistsData, setArtistsData] = useState({
         artists: [],
+        pages: {
+            next: null,
+            prev: null
+        }
+    });
+    const [playlistsData, setPlaylistsData] = useState({
+        playlists: [],
         pages: {
             next: null,
             prev: null
@@ -114,16 +122,48 @@ const Workspace = props => {
                 setLoading(false);
             });
     }
+    const fetchPlaylistsHandler = (urlPath) => {
+        setLoading(true);
+        const url = urlPath || 'https://api.spotify.com/v1/me/playlists?limit=50';
+        const config = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            headers: {
+                "Authorization": "Bearer " + props.accessToken
+            }
+        };
+        axios.get(url, config)
+            .then(res => {
+                setPlaylistsData({
+                    playlists: res.data.items,
+                    pages: {
+                        next: res.data.next || null,
+                        prev: res.data.previous || null
+                    }
+                });
+                setLoading(false);
+                console.log(res.data);
+                console.log('[Workspace]: Playlists Fetched');
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            });
+    }
     return (
         <div className={classes.Workspace}>
             {/* <h2>{'Liked Songs'}</h2> */}
             <div className={classes.Content}>
                 <Switch>
                     <Route path="/dashboard/liked" render={() => <LikedSongs fetchSongs={fetchLikedSongsHandler} data={likedSongsData} loading={loading} />}/>
-                    <Route path="/dashboard/albums" render={() => <Albums fetchAlbums={fetchSavedAlbumsHandler} data={albumsData} loading={loading}/>}/>
+
+                    <Route path="/dashboard/albums" render={() => <Albums fetchAlbums={fetchSavedAlbumsHandler} data={albumsData} loading={loading} accessToken={props.accessToken} />}/>
+
                     <Route path="/dashboard/artists" render={() => <Artists fetchArtists={fetchFollowedArtistsHandler} data={artistsData} loading={loading} />}/>
+
+                    <Route path="/dashboard/playlists" render={() => <Playlists fetchPlaylists={fetchPlaylistsHandler} data={playlistsData} loading={loading} accessToken={props.accessToken} />}/>
+
                     <Route path="/dashboard/recently" render={() => <h1>Recently Played</h1>}/>
-                    <Route path="/dashboard/playlists" render={() => <h1>Playlists</h1>}/>
                     <Route path="/dashboard/new" render={() => <h1>New Releases</h1>}/>
                     {/* <Route render={() => <h1>SORRY COULDN'T FIND THAT PAGE 404</h1>}/> */}
                     {/* <Route render={() => <LikedSongs accessToken={props.accessToken} />}/> */}
