@@ -1,106 +1,142 @@
-import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import classes from "./App.module.css";
+import Dashboard from './components/Dashboard/Dashboard';
 import Footer from "./components/Footer/Footer";
 import Navigation from "./components/Navigation/Navigation";
 import Redirecting from './components/Redirecting/Redirecting';
-import Layout from './containers/Layout/Layout';
+import Landing from './components/Landing/Landing';
+import axios from 'axios';
+import Profile from './components/Profile/Profile';
 
 
 const App = props => {
-    const [loggedIn, setloggedIn] = useState(false);
-    // const [accessToken, setAccessToken] = useState('');
-    // const [expirationDate, setExpirationDate] = useState('');
-    const [app, setApp] = useState(<Route path="/" render={() => <Layout />}/>);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [accessToken, setAccessToken] = useState(null);
+    const [expirationDate, setExpirationDate] = useState(null);
+    const [profile, setProfile] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [userAvatar, setUserAvatar] = useState(null);
+    const [backdropOpenAlt, setBackdropOpenAlt] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const loginHandler = () => {
-
-        const url = 'https://accounts.spotify.com/authorize?client_id=72f545293f9f4ac593711f8bd95d66c5&response_type=token&redirect_uri=http://localhost:3000/redirecting';
-
-        const features = {
-            width: 450,
-            height: 730,
-            left: (window.screen.width / 2) - (window.width / 2),
-            top: (window.screen.height / 2) - (window.height / 2)
-        }
-        
-        // window.open(url, 'Spotify Authorization' , 'menubar=no,location=no,resizable=no,scrollbars=no,status=no, width=' + features.width + ', height=' + features.height + ', top=' + features.top + ', left=' + features.left);
+        const scopes = [
+            'user-read-private',
+            'user-read-email',
+            'user-library-modify',
+            'user-library-read',
+            'user-follow-modify',
+            'user-follow-read'
+        ];
+        const encodedScopes = encodeURIComponent(scopes.join(' '));
+        console.log(encodedScopes);
+        const url = `https://accounts.spotify.com/authorize?client_id=72f545293f9f4ac593711f8bd95d66c5&response_type=token&redirect_uri=http://192.168.1.2:3000/redirecting&scope=${encodedScopes}`;
 
         window.location.href = url;
-
     }
 
-    const checkLoggedIn = () => {
-        setloggedIn(true);
-        console.log('lol')
+    const logoutHandler = () => {
+        setBackdropOpenAlt(false);
+        setIsLoggedIn(false);
+        // setUserAvatar(null);
+        // localStorage.removeItem('access_token');
+        // localStorage.removeItem('expires_in');
+        window.history.go(0);
+        localStorage.clear();
+        setUsername(null);
     }
 
-    // useEffect(() => {
-    //     const accessToken = localStorage.getItem('access_token');
-    //     const expiresIn = localStorage.getItem('expires_in');
-
-    //     console.log(new Date(expiresIn));
-
-    //     if(accessToken && expiresIn && new Date() <= new Date(expiresIn)) {
-    //         setAccessToken(localStorage.getItem('access_token'));
-    //         setExpirationDate(localStorage.getItem('expires_in'));
-    //     }
-
-    //     console.log('useEffect [App.js]')
-    // }, []);
-
-    // useEffect(() => {
-    //     if(accessToken && expirationDate) {
-    //         setApp(<Redirect to="/dashboard"/>);
-    //     }
-    // }, [accessToken, expirationDate])
-
-    // useEffect(() => {
-
-    // }, [loggedIn])
-
-    // useEffect(() => {
-    //     if(props.isToken) {
-    //         setApp(<Redirect to="/dashboard"/>);
-    //     }
-    // }, [app])
-
-    // let app = (
-    //     <Route path="/" component={Layout} />
-    // )
 
     useEffect(() => {
-        if(props.isToken) {
-            setApp(<Redirect to="/dashboard"/>);
-            // app = (
-            //     <Redirect to="/dashboard"/>
-            // )
+        console.log(profile);
+        
+        setLoading(true);
+        
+        const accessToken = localStorage.getItem('access_token');
+        const expiresIn = localStorage.getItem('expires_in');
+        
+        if(new Date().getTime() > new Date(expiresIn).getTime()) {
+            localStorage.clear();
         }
-    }, [props.isToken])
 
-    useEffect(() => {
-        if(loggedIn) {
-            setApp(<Redirect to="/dashboard"/>);
+        if(accessToken && expiresIn && new Date().getTime() <= new Date(expiresIn).getTime()) {
+            setIsLoggedIn(true);
+            setAccessToken(accessToken);
+            setExpirationDate(expiresIn);
         }
-    }, [loggedIn])
+        if(!accessToken){
+            return false;
+        }
 
+        const CancelToken = axios.CancelToken;
+        const source = CancelToken.source();
+        const url = 'https://api.spotify.com/v1/me';
+        const config = {
+            cancelToken: source.token,
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            headers: {
+                "Authorization": "Bearer " + accessToken
+            }
+        };
+        axios.get(url, config)
+            .then(res => {
+                console.log(res.data);
+                setUsername(res.data.display_name);
+                if(res.data.images.length){
+                    setUserAvatar(res.data.images[0].url);
+                }
+                setProfile(res.data);
+                setLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            })
+            console.log(profile);
+            // return source.cancel('[App]: Fetching Canceled');
+    }, []);
+
+    let routes = (
+            <Switch>
+                <Route path="/" render={() => <Landing login={loginHandler}/>}/>
+                {/* <Redirect to="/"/> */}
+                <Route render={() => <Landing login={loginHandler}/>}/>
+            </Switch>
+    )
+    if(isLoggedIn) {
+        routes = (
+                <Switch>
+                    <Route path="/profile" render={() => <Profile profile={profile}/>}/>
+                    <Route path="/dashboard/:id" render={() => <Dashboard accessToken={accessToken}/>}/>
+                    {/* <Route render={() => <Dashboard accessToken={accessToken}/>}/> */}
+                    {/* <Redirect to="/dashboard/liked-songs"/> */}
+                    {/* <Route render={() => <Dashboard accessToken={accessToken}/>}/> */}
+                    <Route render={() => <h1>SORRY COULDN'T FIND THAT PAGE 404 LOL</h1>}/>
+
+                </Switch>
+        )
+    }
+    
     return (
         <div className={classes.App}>
-            <Navigation login={loginHandler}/>
-            <Switch>
-                <Route path="/redirecting" render={() => <Redirecting check={() => checkLoggedIn()}/>} />
-                {app}
-            </Switch>
-            <Footer />
+            <Navigation
+                loading={loading}
+                backdropOpenAlt={backdropOpenAlt}
+                authorized={isLoggedIn}
+                username={username}
+                // userProfilePicture={accessToken && profile.images?[0].url : ''}
+                userProfilePicture={userAvatar}
+                login={loginHandler}
+                logout={logoutHandler}
+                />
+                <Route path="/redirecting" component={Redirecting}/>
+                {routes}
+            {/* <Footer /> */}
         </div>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        isToken: state.auth.accessToken !== null
-    }
-}
 
-export default connect(mapStateToProps)(App);
+export default App;

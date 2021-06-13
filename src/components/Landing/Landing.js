@@ -1,23 +1,24 @@
 import React from "react";
-import classes from "./Layout.module.css";
+import classes from "./Landing.module.css";
 import { BsFillPlayFill } from 'react-icons/bs';
-// import Container from '../../components/UI/Container/Container';
-import Button from "../../components/UI/Button/Button";
+import Button from "../UI/Button/Button";
 
 
-const Layout = () => {
+const Landing = props => {
     return (
         <React.Fragment>
-            <section className={classes.Layout}>
+            <section className={classes.Landing}>
                 <BsFillPlayFill className={classes.PlayIcon}/>
                 <div className={classes.Content}>
-                    <h3>Observe. Create. Change.</h3>
+                    {/* <h1>Observe. Create. Change.</h1> */}
+                    <h1>Spotify Plus</h1>
+
                     <p>Organize your spotify playlists, favorite albums, liked songs and more.</p>
-                    <Button>Start</Button>
+                    <Button clicked={props.login}>Connect Spotify</Button>
                 </div>
             </section>
         </React.Fragment>
     )
 }
 
-export default Layout;
+export default Landing;

@@ -1,35 +1,57 @@
+.Spinner,
+.Spinner:before,
+.Spinner:after {
+  border-radius: 50%;
+  width: 1.5em;
+  height: 1.5em;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+  -webkit-animation: load7 1.8s infinite ease-in-out;
+  animation: load7 1.8s infinite ease-in-out;
+}
 .Spinner {
-    display: inline-block;
-    width: 80px;
-    height: 80px;
+  color: #ff7d9d;
+  font-size: 10px;
+  margin: 0 auto;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-animation-delay: -0.16s;
+  animation-delay: -0.16s;
 }
-.Spinner div {
-    box-sizing: border-box;
-    display: block;
-    position: absolute;
-    width: 64px;
-    height: 64px;
-    margin: 8px;
-    border: 8px solid #ff7d9d;
-    border-radius: 50%;
-    animation: Spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #ff7d9d transparent transparent transparent;
+.Spinner:before,
+.Spinner:after {
+  content: '';
+  position: absolute;
+  top: 0;
 }
-.Spinner div:nth-child(1) {
-    animation-delay: -0.45s;
+.Spinner:before {
+  left: -3.5em;
+  -webkit-animation-delay: -0.32s;
+  animation-delay: -0.32s;
 }
-.Spinner div:nth-child(2) {
-    animation-delay: -0.3s;
+.Spinner:after {
+  left: 3.5em;
 }
-.Spinner div:nth-child(3) {
-    animation-delay: -0.15s;
+@-webkit-keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
 }
-@keyframes Spinner {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
 }
-  
