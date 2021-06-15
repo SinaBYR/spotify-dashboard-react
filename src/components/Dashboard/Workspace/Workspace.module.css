@@ -1,5 +1,5 @@
 .Workspace {
-    /* height: 200px; */
+    /* height: 100%; */
     /* background-color: teal; */
     padding: 0 1rem 3rem;
 }
@@ -7,4 +7,13 @@
     font-size: 1.7rem;
     margin: 0.5rem 0;
     text-align: center;
+}
+@media (min-width: 700px) and (min-height: 500px) {
+    .Workspace {
+        /* grid-template-columns: 200px auto; */
+        /* background-color: #031827; */
+        height: 100%;
+        overflow-y: scroll;
+        padding: 1rem;
+    }
 }

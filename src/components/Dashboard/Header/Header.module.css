@@ -49,3 +49,9 @@
 .Button:active {
     transform: scale(0.95);
 }
+@media (min-width: 700px) and (min-height: 500px) {
+    .Header {
+        /* height: 200px; */
+        border-right: 3px solid #ff7d9d;
+    }
+}

@@ -35,13 +35,13 @@ const Playlists = props => {
         axios.get(url, config)
             .then(res => {
                 console.log(res.data);
-                // setSongsData({
-                //     songs: res.data.items,
-                //     pages: {
-                //         next: res.data.next || null,
-                //         prev: res.data.previous || null,
-                //     }
-                // })
+                setSongsData({
+                    songs: res.data.items,
+                    pages: {
+                        next: res.data.next || null,
+                        prev: res.data.previous || null,
+                    }
+                })
                 setLoading(false);
             })
             .catch(err => {
@@ -67,7 +67,7 @@ const Playlists = props => {
     if(!props.loading && props.data.playlists.length) {
         displayedPlaylists = props.data.playlists.map((playlist, index) => {
             return (
-                <Link to={"/dashboard/playlists/" + playlist.id + "/" + playlist.name} key={index + playlist.name} {...playlist.name}>
+                <Link to={"/dashboard/playlists/" + playlist.id + "/" + playlist.name} key={Math.random()}>
                     <div className={classes.Playlist}>
                         <div className={classes.Cover}>
                             {playlist.images.length
@@ -92,7 +92,7 @@ const Playlists = props => {
                 />
                 <Route exact path="/dashboard/playlists">
                     {displayedPlaylists}
-                    <div className={classes.PageNavigation}>
+                    <div className={classes.PageNavigation} >
                         {props.data.pages.prev
                         ? <div className={classes.Prev} onClick={() => props.fetchPlaylists(props.data.pages.prev)}>Prev</div>
                         : null}

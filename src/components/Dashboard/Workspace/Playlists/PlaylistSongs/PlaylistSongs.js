@@ -27,14 +27,16 @@ const PlaylistSongs = props => {
             })
             .join(', ');
 
-            return <Song trackName={song.track.name} cover={song.track.album.images[0]} artists={artists} key={index}/>
+            return <Song trackName={song.track.name} cover={song.track.album.images[0].url} artists={artists}/>
         })
     }
     return (
-        <div className={classes.PlaylistSongs}>
+        <div>
             <h2 style={{textAlign: 'left'}}>{props.match.params.playlistName}</h2>
-            {playlistSongs}
-            <div className={classes.PageNavigation}>
+            <div className={classes.PlaylistSongs}>
+                {playlistSongs}
+            </div>
+            <div className={classes.PageNavigation} style={{display: props.data.pages.prev && props.data.pages.next ? 'flex' : 'none'}}>
                 {props.data.pages.prev
                 ? <div className={classes.Prev} onClick={() => props.fetchSongs(undefined, props.data.pages.prev)}>Prev</div>
                 : null}

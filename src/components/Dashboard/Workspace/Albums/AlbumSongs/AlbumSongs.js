@@ -28,10 +28,12 @@ const AlbumSongs = props => {
         })
     };
     return (
-        <div className={classes.AlbumSongs}>
-            {/* <h2 style={{textAlign: 'left'}}>{props.match.params.playlistName}</h2> */}
-            {albumSongs}
-            <div className={classes.PageNavigation}>
+        <div>
+            <h2 style={{textAlign: 'left'}}>{props.match.params.albumName}</h2>
+            <div className={classes.AlbumSongs}>
+                {albumSongs}
+            </div>
+            <div className={classes.PageNavigation} style={{display: props.data.pages.prev && props.data.pages.next ? 'flex' : 'none'}}>
                 {props.data.pages.prev
                 ? <div className={classes.Prev} onClick={() => props.fetchSongs(undefined, props.data.pages.prev)}>Prev</div>
                 : null}

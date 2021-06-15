@@ -28,25 +28,26 @@ const LikedSongs = props => {
             <SongSkeleton />
             <SongSkeleton />
             <SongSkeleton />
+            <SongSkeleton />
         </React.Fragment>
     )
 
-    console.log('hi')
     if(!props.loading && props.data.songs.length){
-        displayedSongs = props.data.songs.map((eachSong, index) => {
-            let artists = eachSong.track.artists.map(artist => {
+        displayedSongs = props.data.songs.map((song, index) => {
+            let artists = song.track.artists.map(artist => {
                 return artist.name;
             })
             .join(', ');
 
-            return <Song trackName={eachSong.track.name} cover={eachSong.track.album.images[0].url} artists={artists} key={index}/>
+            return <Song trackName={song.track.name} cover={song.track.album.images[0].url} artists={artists} key={index}/>
         })
     }
-    console.log(displayedSongs);
     return (
-        <div className={classes.LikedSongs}>
-            {displayedSongs}
-            <div className={classes.PageNavigation}>
+        <React.Fragment>
+            <div className={classes.LikedSongs}>
+                {displayedSongs}
+            </div>
+            <div className={classes.PageNavigation} style={{display: props.data.pages.prev && props.data.pages.next ? 'flex' : 'none'}}>
                 {props.data.pages.prev
                 ? <div className={classes.Prev} onClick={() => props.fetchSongs(props.data.pages.prev)}>Prev</div>
                 : null}
@@ -54,7 +55,7 @@ const LikedSongs = props => {
                 ? <div className={classes.Next} onClick={() => props.fetchSongs(props.data.pages.next)}>Next</div>
                 : null}
             </div>
-        </div>
+        </React.Fragment>
     )
 }
 

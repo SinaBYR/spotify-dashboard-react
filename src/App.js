@@ -27,7 +27,8 @@ const App = props => {
             'user-library-modify',
             'user-library-read',
             'user-follow-modify',
-            'user-follow-read'
+            'user-follow-read',
+            'user-read-recently-played'
         ];
         const encodedScopes = encodeURIComponent(scopes.join(' '));
         console.log(encodedScopes);

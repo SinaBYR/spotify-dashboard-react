@@ -6,8 +6,12 @@ import LikedSongs from "./LikedSongs/LikedSongs"
 import Albums from "./Albums/Albums";
 import Artists from "./Artists/Artists";
 import Playlists from "./Playlists/Playlists";
+import RecentlyPlayed from "./RecentlyPlayed/RecentlyPlayed";
+import NewReleases from "./NewReleases/NewReleases";
+import { useHistory } from "react-router-dom";
 
 const Workspace = props => {
+
     const [loading, setLoading] = useState(false);
     const [likedSongsData, setLikedSongsData] = useState({
         songs: [],
@@ -37,6 +41,15 @@ const Workspace = props => {
             prev: null
         }
     });
+    const [recentlyPlayedData, setRecentlyPlayedData] = useState({
+        songs: []
+    });
+    const [newReleasesData, setNewReleasesData] = useState({
+        albums: []
+    });
+    const [searchData, setSearchData] = useState({
+        results: []
+    })
 
     const fetchLikedSongsHandler = (urlPath) => {
         setLoading(true);
@@ -150,6 +163,57 @@ const Workspace = props => {
                 setLoading(false);
             });
     }
+    const fetchRecentlyPlayedTracksHandler = (urlPath) => {
+        
+        setLoading(true);
+        const url = urlPath || 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
+        const config = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            headers: {
+                "Authorization": "Bearer " + props.accessToken
+            }
+        };
+        axios.get(url, config)
+            .then(res => {
+                setRecentlyPlayedData({
+                    songs: res.data.items
+                });
+                setLoading(false);
+                console.log(res.data);
+                console.log('[Workspace]: Recently Played Tracks Fetched');
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            });
+    }
+    const fetchNewReleasesHandler = (urlPath) => {
+        
+        setLoading(true);
+        const url = urlPath || 'https://api.spotify.com/v1/browse/new-releases?limit=20';
+        const config = {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            headers: {
+                "Authorization": "Bearer " + props.accessToken
+            }
+        };
+        axios.get(url, config)
+            .then(res => {
+                setNewReleasesData({
+                    albums: res.data.albums.items
+                });
+                setLoading(false);
+                console.log(res.data);
+                console.log('[Workspace]: New Releases Fetched');
+            })
+            .catch(err => {
+                console.log(err);
+                setLoading(false);
+            });
+    }
+
     return (
         <div className={classes.Workspace}>
             {/* <h2>{'Liked Songs'}</h2> */}
@@ -163,8 +227,10 @@ const Workspace = props => {
 
                     <Route path="/dashboard/playlists" render={() => <Playlists fetchPlaylists={fetchPlaylistsHandler} data={playlistsData} loading={loading} accessToken={props.accessToken} />}/>
 
-                    <Route path="/dashboard/recently" render={() => <h1>Recently Played</h1>}/>
-                    <Route path="/dashboard/new" render={() => <h1>New Releases</h1>}/>
+                    <Route path="/dashboard/recently" render={() => <RecentlyPlayed fetchSongs={fetchRecentlyPlayedTracksHandler} data={recentlyPlayedData} loading={loading} />}/>
+
+                    <Route path="/dashboard/new" render={() => <NewReleases fetchNewAlbums={fetchNewReleasesHandler} data={newReleasesData} loading={loading} accessToken={props.accessToken} />}/>
+
                     {/* <Route render={() => <h1>SORRY COULDN'T FIND THAT PAGE 404</h1>}/> */}
                     {/* <Route render={() => <LikedSongs accessToken={props.accessToken} />}/> */}
                     <Redirect to="/"/>

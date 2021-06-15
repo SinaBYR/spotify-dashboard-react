@@ -1,9 +1,9 @@
 import classes from "./Category.module.css"
-import { Link } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 const Category = props => {
     return (
-        <Link className={classes.Category} to={props.to}>{props.children}</Link>
+        <NavLink className={classes.Category} activeClassName={classes.Active} to={props.to}>{props.children}</NavLink>
     )
 }
 

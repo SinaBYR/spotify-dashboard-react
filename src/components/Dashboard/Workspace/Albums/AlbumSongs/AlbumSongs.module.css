@@ -4,7 +4,6 @@
 }
 .PageNavigation {
     padding: 1rem 0;
-    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -19,4 +18,15 @@
     color: #05243a;
     padding: 0.5rem 1rem;
     margin: 0 0.2rem;
+}
+.Prev:hover, .Next:hover{
+    cursor: pointer;
+    background-color: #b3566d;
+}
+
+@media (min-width: 700px) and (min-height: 500px) {
+    .AlbumSongs {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+        gap: 1rem;
+    }
 }

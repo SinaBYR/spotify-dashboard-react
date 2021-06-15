@@ -37,8 +37,10 @@ const Artists = props  => {
         })
     }
     return (
-        <div className={classes.Artists}>
-            {displayedArtists}
+        <React.Fragment>
+            <div className={classes.Artists}>
+                {displayedArtists}
+            </div>
             <div className={classes.PageNavigation}>
                 {props.data.pages.prev
                 ? <div className={classes.Prev} onClick={() => props.fetchArtists(props.data.pages.prev)}>Prev</div>
@@ -47,7 +49,7 @@ const Artists = props  => {
                 ? <div className={classes.Next} onClick={() => props.fetchArtists(props.data.pages.next)}>Next</div>
                 : null}
             </div>
-        </div>
+        </React.Fragment>
     )
 }
 

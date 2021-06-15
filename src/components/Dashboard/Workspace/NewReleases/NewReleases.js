@@ -72,7 +72,7 @@ const NewReleases = props => {
             })
             .join(', ');
             return (
-                <Link to={"/dashboard/albums/" + album.id} key={index + album.name}>
+                <Link to={"/dashboard/new/" + album.id + "/" + album.name} key={index + album.name}>
                     <div className={classes.Album}>
                         <div className={classes.Cover}>
                             <img src={album.images[0].url} alt="cover"/>
@@ -95,7 +95,7 @@ const NewReleases = props => {
         <div className={classes.NewReleases}>
             <Switch>
                 <Route
-                    path="/dashboard/new/:albumID"
+                    path="/dashboard/new/:albumID/:albumName"
                     render={(props) => <AlbumSongs fetchSongs={fetchAlbumSongsHandler} data={songsData} {...props} loading={loading} />}/>
                 <Route path="/dashboard/new">
                     {displayedAlbums}

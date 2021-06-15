@@ -61,8 +61,8 @@
 }
 .ProfileMenu {
     position: absolute;
-    top: 110%;
-    right: -10%;
+    top: 65px;
+    right: 10px;
     /* height: 50px; */
     display: none;
     flex-direction: column;
@@ -145,5 +145,10 @@
 @media (min-width: 500px) and (min-height: 400px) {
     .Navigation {
         height: auto;
+    }
+    .ProfileMenu {
+        top: 65px;
+        right: 10px;
+        width: 200px;
     }
 }

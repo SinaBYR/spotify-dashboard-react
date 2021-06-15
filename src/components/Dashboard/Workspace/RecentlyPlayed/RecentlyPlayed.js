@@ -6,13 +6,14 @@ import SongSkeleton from '../../../UI/Skeletons/SongSkeleton/SongSkeleton';
 
 const RecentlyPlayed = props => {
     useEffect(() => {
-        // if(props.data.songs.length){
-        //     return false;
-        // }
+        if(props.data.songs.length){
+            return false;
+        }
         props.fetchSongs();
     }, [])
     let displayedSongs = (
         <React.Fragment>
+            <SongSkeleton />
             <SongSkeleton />
             <SongSkeleton />
             <SongSkeleton />

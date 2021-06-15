@@ -24,7 +24,7 @@
   
 @media (min-height: 500px) and (min-width: 830px) {
     .App {
-        grid-template-rows: 8% 87% 5%;
+        grid-template-rows: 8% 92%;
         width: 100%;
         height: 100vh;
     }
