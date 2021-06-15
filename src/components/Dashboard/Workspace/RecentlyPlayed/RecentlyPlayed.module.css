@@ -1,0 +1,11 @@
+.RecentlyPlayed {
+    display: grid;
+    gap: 0.5rem;
+}
+
+@media (min-width: 700px) and (min-height: 500px) {
+    .RecentlyPlayed {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+        gap: 1rem;
+    }
+}
