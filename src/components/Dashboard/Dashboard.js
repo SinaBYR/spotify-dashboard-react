@@ -7,13 +7,10 @@ import SelectCategory from './SelectCategory/SelectCategory';
 import Workspace from './Workspace/Workspace';
 import Header from './Header/Header';
 import { useHistory } from "react-router-dom";
-import axios from 'axios';
 
 const Dashboard = props => {
 
     const [isSelectingCategory, setIsSelectingCategory] = useState(false);
-    // loading for search
-    const [loading, setLoading] = useState(false);
     
     useEffect(() => {
         console.log('[Dashboard]: Loaded');
@@ -25,36 +22,6 @@ const Dashboard = props => {
     const closeBackdropHandler = () => {
         setIsSelectingCategory(false);
     }
-
-    // SEARCH METHOD FOR SEARCH COMPONENT ( ABANDONED )
-
-    // const fetchSearchedTermHandler = (e) => {
-    //     // setLoading(true);
-    //     e.preventDefault();
-    //     console.log(e.target.searchbar.value.trim());
-    //     const query = e.target.searchbar.value.trim()
-    //     const url = 'https://api.spotify.com/v1/search?type=artist%2Calbum%2Cplaylist&q=' + query;
-    //     const config = {
-    //         "Accept": "application/json",
-    //         "Content-Type": "application/json",
-    //         headers: {
-    //             "Authorization": "Bearer " + props.accessToken
-    //         }
-    //     };
-    //     axios.get(url, config)
-    //         .then(res => {
-    //             // setSearchData({
-    //             // });
-    //             setLoading(false);
-    //             console.log(res.data);
-    //             console.log('[Workspace]: New Releases Fetched');
-    //             history.location.pathname = '/dashboard/search?q=' + query;
-    //         })
-    //         .catch(err => {
-    //             console.log(err);
-    //             setLoading(false);
-    //         });
-    // }
 
     return (
         <div className={classes.Dashboard}>

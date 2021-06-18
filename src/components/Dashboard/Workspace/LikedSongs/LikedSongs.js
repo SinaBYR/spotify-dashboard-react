@@ -5,13 +5,9 @@ import SongSkeleton from "../../../UI/Skeletons/SongSkeleton/SongSkeleton";
 import axios from "axios";
 import React from "react";
 import Song from "./Song/Song";
+import Error from "../../../Errors/Error/Error";
 
 const LikedSongs = props => {
-    const [songs, setSongs] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [scrollPosition, setScrollPosition] = useState(0);
-
-
 
     useEffect(() => {
         if(props.data.songs.length){
@@ -19,10 +15,7 @@ const LikedSongs = props => {
         }
         props.fetchSongs();
     }, [])
-    const lazyLoading = e => {
-        console.log(e);
-    }
-    // console.log(songs);
+
     let displayedSongs = (
         <React.Fragment>
             <SongSkeleton />
@@ -39,10 +32,19 @@ const LikedSongs = props => {
             })
             .join(', ');
 
-            return <Song trackName={song.track.name} cover={song.track.album.images[0].url} artists={artists} key={index}/>
+            return (
+                <Song
+                    trackName={song.track.name}
+                    cover={song.track.album.images.length ? song.track.album.images[0].url : null}
+                    artists={artists}
+                    key={index}/>
+            )
         })
     }
     return (
+        props.error.errorPage === 'LikedSongs'
+        ? <Error data={props.error} />
+        :
         <React.Fragment>
             <div className={classes.LikedSongs}>
                 {displayedSongs}

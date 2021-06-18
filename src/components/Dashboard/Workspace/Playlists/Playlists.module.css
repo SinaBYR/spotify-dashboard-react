@@ -72,6 +72,10 @@
     padding: 0.5rem 1rem;
     margin: 0 0.2rem;
 }
+.Prev:hover, .Next:hover{
+    cursor: pointer;
+    background-color: #b3566d;
+}
 
 @media (min-width: 700px) and (min-height: 500px) {
     .Playlists {

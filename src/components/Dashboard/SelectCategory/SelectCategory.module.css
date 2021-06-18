@@ -36,7 +36,6 @@
 /* Desktop */
 @media (min-width: 700px) and (min-height: 500px) {
     .SelectCategory {
-        /* background-color: #031827; */
         display: none;
     }
 }

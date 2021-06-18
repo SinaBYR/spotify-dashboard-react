@@ -27,9 +27,14 @@
 }
 
 
-@media (min-width: 700px) and (min-height: 500px) {
+@media (min-width: 980px) and (min-height: 500px) {
     .LikedSongs {
         grid-template-columns: repeat(2, minmax(220px, 1fr));
         gap: 1rem;
+    }
+}
+@media (min-width: 700px) and (max-width: 980px) {
+    .LikedSongs {
+        grid-template-columns: 1fr;
     }
 }

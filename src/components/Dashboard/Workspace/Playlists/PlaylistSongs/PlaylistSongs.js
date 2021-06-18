@@ -3,16 +3,15 @@ import classes from "./PlaylistSongs.module.css";
 import { useEffect, useState } from "react";
 import Song from "../../LikedSongs/Song/Song";
 import SongSkeleton from "../../../../UI/Skeletons/SongSkeleton/SongSkeleton";
+import Error from "../../../../Errors/Error/Error";
 
 const PlaylistSongs = props => {
 
-
     console.log(props);
     useEffect(() => {
-        // return source.cancel('[App]: Fetching Canceled');
-        // return source.cancel('[PlaylistSongs]: Fetching Songs Cancelled');
         props.fetchSongs(props.match.params.playlistID);
     }, [])
+    
     let playlistSongs = (
         <React.Fragment>
             <SongSkeleton />
@@ -27,16 +26,24 @@ const PlaylistSongs = props => {
             })
             .join(', ');
 
-            return <Song trackName={song.track.name} cover={song.track.album.images[0].url} artists={artists}/>
+            return (
+                <Song
+                    trackName={song.track.name}
+                    cover={song.track.album.images.length ? song.track.album.images[0].url : null}
+                    artists={artists}/>
+            )
         })
     }
     return (
+        props.error.errorPage === 'PlaylistSongs'
+        ? <Error data={props.error}/>
+        :
         <div>
             <h2 style={{textAlign: 'left'}}>{props.match.params.playlistName}</h2>
             <div className={classes.PlaylistSongs}>
                 {playlistSongs}
             </div>
-            <div className={classes.PageNavigation} style={{display: props.data.pages.prev && props.data.pages.next ? 'flex' : 'none'}}>
+            <div className={classes.PageNavigation} style={{display: props.data.pages.prev || props.data.pages.next ? 'flex' : 'none'}}>
                 {props.data.pages.prev
                 ? <div className={classes.Prev} onClick={() => props.fetchSongs(undefined, props.data.pages.prev)}>Prev</div>
                 : null}

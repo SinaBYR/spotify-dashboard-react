@@ -28,12 +28,6 @@ const Navigation = props => {
         setIsBackdropOpen(false);
     }
 
-    // let userName = props.username;
-    // console.log(typeof userName);
-    // if(userName.length > 10) {
-    //     userName = userName.substring(0, 10) + '...';
-    // }
-
     let navLinks = (
         <div className={classes.NavLinks}>
             <div className={classes.NavigationLink} onClick={props.login}>
@@ -60,7 +54,6 @@ const Navigation = props => {
                     {profilePic}
                     <div className={[classes.ProfileMenu, isProfileMenuOpen ? classes.ProfileMenuOpen : null].join(' ')}>
                         <div className={classes.Username}>{props.username ? props.username : 'not found'}</div>
-                        {/* <div className={classes.Profile}>Profile</div> */}
                         <Link className={classes.Profile} to="/profile"onClick={closeBackdrop}>Profile</Link>
                         <div className={classes.Logout} onClick={props.logout}>Logout</div>
                     </div>

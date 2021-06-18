@@ -13,6 +13,11 @@ import { useHistory } from "react-router-dom";
 const Workspace = props => {
 
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState({
+        errorPage: '',
+        body: null,
+        code: null
+    });
     const [likedSongsData, setLikedSongsData] = useState({
         songs: [],
         pages: {
@@ -53,6 +58,12 @@ const Workspace = props => {
 
     const fetchLikedSongsHandler = (urlPath) => {
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        })
+
         const url = urlPath || `https://api.spotify.com/v1/me/tracks?limit=50`;
         const config = {
             "Accept": "application/json",
@@ -75,12 +86,31 @@ const Workspace = props => {
                 console.log('[Workspace]: Liked Songs Fetched');
             })
             .catch(err => {
+                if(err.response) {
+                    setError({
+                        errorPage: 'LikedSongs',
+                        code: err.response.data.error.status,
+                        body: err.response.data.error.message
+                    })
+                } else {
+                    setError({
+                        errorPage: 'LikedSongs',
+                        code: null,
+                        body: 'Something went wrong, please try again.'
+                    })
+                }
                 console.log(err);
                 setLoading(false);
             });
     }
     const fetchSavedAlbumsHandler = (urlPath) => {
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        })
+
         const url = urlPath || 'https://api.spotify.com/v1/me/albums?limit=50';
         const config = {
             "Accept": "application/json",
@@ -103,12 +133,32 @@ const Workspace = props => {
                 console.log('[Workspace]: Albums Fetched');
             })
             .catch(err => {
+                if(err.response) {
+                    setError({
+                        errorPage: 'Albums',
+                        code: err.response.data.error.status,
+                        body: err.response.data.error.message
+                    })
+                } else {
+                    setError({
+                        errorPage: 'Albums',
+                        code: null,
+                        body: 'Something went wrong, please try again.'
+                    })
+                }
                 console.log(err);
                 setLoading(false);
             });
     }
     const fetchFollowedArtistsHandler = (urlPath) => {
+
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        })
+
         const url = urlPath || 'https://api.spotify.com/v1/me/following?type=artist&limit=50';
         const config = {
             "Accept": "application/json",
@@ -131,12 +181,32 @@ const Workspace = props => {
                 console.log('[Workspace]: Followed Artists Fetched');
             })
             .catch(err => {
+                if(err.response) {
+                    setError({
+                        errorPage: 'Artists',
+                        code: err.response.data.error.status,
+                        body: err.response.data.error.message
+                    })
+                } else {
+                    setError({
+                        errorPage: 'Artists',
+                        code: null,
+                        body: 'Something went wrong, please try again.'
+                    })
+                }
                 console.log(err);
                 setLoading(false);
             });
     }
+
     const fetchPlaylistsHandler = (urlPath) => {
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        })
+
         const url = urlPath || 'https://api.spotify.com/v1/me/playlists?limit=50';
         const config = {
             "Accept": "application/json",
@@ -159,13 +229,32 @@ const Workspace = props => {
                 console.log('[Workspace]: Playlists Fetched');
             })
             .catch(err => {
-                console.log(err);
+                if(err.response) {
+                    setError({
+                        errorPage: 'Playlists',
+                        code: err.response.data.error.status,
+                        body: err.response.data.error.message
+                    })
+                } else {
+                    setError({
+                        errorPage: 'Playlists',
+                        code: null,
+                        body: 'Something went wrong, please try again.'
+                    })
+                }
+                console.log({...err});
+
                 setLoading(false);
             });
     }
     const fetchRecentlyPlayedTracksHandler = (urlPath) => {
-        
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        })
+
         const url = urlPath || 'https://api.spotify.com/v1/me/player/recently-played?limit=50';
         const config = {
             "Accept": "application/json",
@@ -184,13 +273,30 @@ const Workspace = props => {
                 console.log('[Workspace]: Recently Played Tracks Fetched');
             })
             .catch(err => {
-                console.log(err);
+                if(err.response) {
+                    setError({
+                        errorPage: 'RecentlyPlayed',
+                        code: err.response.data.error.status,
+                        body: err.response.data.error.message
+                    })
+                } else {
+                    setError({
+                        errorPage: 'RecentlyPlayed',
+                        code: null,
+                        body: 'Something went wrong, please try again.'
+                    })
+                }
                 setLoading(false);
             });
     }
     const fetchNewReleasesHandler = (urlPath) => {
-        
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        })
+
         const url = urlPath || 'https://api.spotify.com/v1/browse/new-releases?limit=20';
         const config = {
             "Accept": "application/json",
@@ -209,6 +315,19 @@ const Workspace = props => {
                 console.log('[Workspace]: New Releases Fetched');
             })
             .catch(err => {
+                if(err.response) {
+                    setError({
+                        errorPage: 'NewReleases',
+                        code: err.response.data.error.status,
+                        body: err.response.data.error.message
+                    })
+                } else {
+                    setError({
+                        errorPage: 'NewReleases',
+                        code: null,
+                        body: 'Something went wrong, please try again.'
+                    })
+                }
                 console.log(err);
                 setLoading(false);
             });
@@ -216,24 +335,23 @@ const Workspace = props => {
 
     return (
         <div className={classes.Workspace}>
-            {/* <h2>{'Liked Songs'}</h2> */}
             <div className={classes.Content}>
                 <Switch>
-                    <Route path="/dashboard/liked" render={() => <LikedSongs fetchSongs={fetchLikedSongsHandler} data={likedSongsData} loading={loading} />}/>
 
-                    <Route path="/dashboard/albums" render={() => <Albums fetchAlbums={fetchSavedAlbumsHandler} data={albumsData} loading={loading} accessToken={props.accessToken} />}/>
+                    <Route path="/dashboard/liked" render={() => <LikedSongs fetchSongs={fetchLikedSongsHandler} data={likedSongsData} loading={loading} error={error} />}/>
 
-                    <Route path="/dashboard/artists" render={() => <Artists fetchArtists={fetchFollowedArtistsHandler} data={artistsData} loading={loading} />}/>
+                    <Route path="/dashboard/albums" render={() => <Albums fetchAlbums={fetchSavedAlbumsHandler} data={albumsData} loading={loading} accessToken={props.accessToken} error={error} />}/>
 
-                    <Route path="/dashboard/playlists" render={() => <Playlists fetchPlaylists={fetchPlaylistsHandler} data={playlistsData} loading={loading} accessToken={props.accessToken} />}/>
+                    <Route path="/dashboard/artists" render={() => <Artists fetchArtists={fetchFollowedArtistsHandler} data={artistsData} loading={loading} error={error} />}/>
 
-                    <Route path="/dashboard/recently" render={() => <RecentlyPlayed fetchSongs={fetchRecentlyPlayedTracksHandler} data={recentlyPlayedData} loading={loading} />}/>
+                    <Route path="/dashboard/playlists" render={() => <Playlists fetchPlaylists={fetchPlaylistsHandler} data={playlistsData} loading={loading} accessToken={props.accessToken} error={error} />}/>
 
-                    <Route path="/dashboard/new" render={() => <NewReleases fetchNewAlbums={fetchNewReleasesHandler} data={newReleasesData} loading={loading} accessToken={props.accessToken} />}/>
+                    <Route path="/dashboard/recently" render={() => <RecentlyPlayed fetchSongs={fetchRecentlyPlayedTracksHandler} data={recentlyPlayedData} loading={loading} error={error} />}/>
 
-                    {/* <Route render={() => <h1>SORRY COULDN'T FIND THAT PAGE 404</h1>}/> */}
-                    {/* <Route render={() => <LikedSongs accessToken={props.accessToken} />}/> */}
-                    <Redirect to="/"/>
+                    <Route path="/dashboard/new" render={() => <NewReleases fetchNewAlbums={fetchNewReleasesHandler} data={newReleasesData} loading={loading} accessToken={props.accessToken} error={error} />}/>
+
+                    <Redirect to="/dashboard/liked"/>
+
                 </Switch>
             </div>
         </div>

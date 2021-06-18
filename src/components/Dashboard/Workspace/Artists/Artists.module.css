@@ -31,6 +31,7 @@
 .Name {
     color: #bebebe;
     margin-top: 0.5rem; 
+    text-align: center;
     letter-spacing: 2px;
 }
 .PageNavigation {

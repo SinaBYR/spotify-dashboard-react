@@ -10,10 +10,8 @@ const Landing = props => {
             <section className={classes.Landing}>
                 <BsFillPlayFill className={classes.PlayIcon}/>
                 <div className={classes.Content}>
-                    {/* <h1>Observe. Create. Change.</h1> */}
                     <h1>Spotify Plus</h1>
-
-                    <p>Organize your spotify playlists, favorite albums, liked songs and more.</p>
+                    <p>Observe your spotify playlists, favorite albums, liked songs and more.</p>
                     <Button clicked={props.login}>Connect Spotify</Button>
                 </div>
             </section>

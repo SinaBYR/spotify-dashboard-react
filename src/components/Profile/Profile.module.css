@@ -1,0 +1,125 @@
+.Profile {
+    padding: 1rem;
+}
+.Heading {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+}
+.Panel {
+    width: 100%;
+    background-color: #041522;
+    background-color: pink;
+    background-color: #fa95ae;
+    padding: 0.2rem;
+    border-radius: 5px;
+}
+.Content {
+    background-color: #041522;
+    background-color: #041b2b;
+    padding: 0rem 1rem 1rem;
+    width: 100%;
+    border-radius: 5px;
+}
+.Head {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4rem 0 1rem;
+    margin-top: 50px;
+}
+.Username {
+    background-color: #fa95ae;
+    color: #041b2b;
+    width: 200px;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    text-align: center;
+    border-radius: 5px;
+    letter-spacing: 2px;
+    overflow-x: auto;
+}
+.Image {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    background-color: #fa95ae;
+    border: 4px solid #041b2b;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 0.1rem;
+    margin-bottom: 1rem;
+}
+.Image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: contain;
+    object-position: center center;
+}
+.AvatarPlaceholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #041b2b;
+}
+.Main {
+    
+    /* background-color: slategray; */
+    /* padding: ; */
+    width: 100%;
+
+}
+.Main > * {
+    margin: 0.5rem 0;
+}
+.Item {
+    background-color: #041522;
+    padding: 0.5rem;
+    overflow-x: hidden;
+}
+.Item > p {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    color: #fa95aec0;
+}
+.Item > div {
+    overflow-x: auto;
+    /* background-color: red; */
+    width: 280px;
+    min-width: 280px;
+    max-width: 100%;
+    padding: 0.5rem 0;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    /* color: #fa95aec0; */
+}
+.Link {
+    display: flex;
+    align-items: center;
+    background-color: #041b2b;
+    color: #fa95ae;
+    padding: 0.7rem 0;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 200ms ease;
+}
+.Link:hover {
+    transform: translateX(5px);
+}
+
+@media (min-width: 700px) and (min-height: 500px) {
+    .Profile {
+        width: 780px;
+        max-width: 780px;
+        margin: 0 auto;
+    }
+    .Item > div {
+        overflow: visible;
+    }
+}

@@ -6,9 +6,10 @@ import axios from 'axios';
 import PlaylistSongs from './PlaylistSongs/PlaylistSongs';
 import { AiFillPicture } from 'react-icons/ai';
 import AlbumSkeleton from '../../../UI/Skeletons/AlbumSkeleton/AlbumSkeleton';
+import Error from '../../../Errors/Error/Error';
 
 const Playlists = props => {
-    console.log(props.accessToken);
+
     const [loading, setLoading] = useState(false);
     const [songsData, setSongsData] = useState({
         songs: [],
@@ -17,9 +18,20 @@ const Playlists = props => {
             prev: null
         }
     });
+    const [error, setError] = useState({
+        errorPage: '',
+        body: null,
+        code: null
+    });
 
     const fetchPlaylistSongsHandler = (playlistID, urlPath) => {
+        
         setLoading(true);
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        });
         
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
@@ -45,6 +57,11 @@ const Playlists = props => {
                 setLoading(false);
             })
             .catch(err => {
+                setError({
+                    errorPage: 'PlaylistSongs',
+                    body: err.response.data.error.message,
+                    code: err.response.data.error.status
+                })
                 console.log(err);
                 setLoading(false);
             })
@@ -54,9 +71,10 @@ const Playlists = props => {
         if(props.data.playlists.length){
             return false;
         }
-
+        console.log(props);
         props.fetchPlaylists();
     }, [])
+    
     let displayedPlaylists = (
         <React.Fragment>
             <AlbumSkeleton />
@@ -84,11 +102,14 @@ const Playlists = props => {
         })
     }
     return (
+        props.error.errorPage === 'Playlists'
+        ? <Error data={props.error} />
+        :
         <div className={classes.Playlists}>
             <Switch>
                 <Route
                     path="/dashboard/playlists/:playlistID/:playlistName"
-                    render={(props) => <PlaylistSongs fetchSongs={fetchPlaylistSongsHandler} data={songsData} loading={loading} {...props}/>}
+                    render={(props) => <PlaylistSongs fetchSongs={fetchPlaylistSongsHandler} data={songsData} loading={loading} error={error} {...props}/>}
                 />
                 <Route exact path="/dashboard/playlists">
                     {displayedPlaylists}
@@ -101,9 +122,7 @@ const Playlists = props => {
                         : null}
                     </div>
                 </Route>
-
             </Switch>
-
         </div>
     )
 }

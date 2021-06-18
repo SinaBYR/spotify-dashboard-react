@@ -3,8 +3,10 @@ import classes from './RecentlyPlayed.module.css';
 import { useEffect } from 'react';
 import Song from '../LikedSongs/Song/Song';
 import SongSkeleton from '../../../UI/Skeletons/SongSkeleton/SongSkeleton';
+import Error from '../../../Errors/Error/Error';
 
 const RecentlyPlayed = props => {
+
     useEffect(() => {
         if(props.data.songs.length){
             return false;
@@ -27,10 +29,19 @@ const RecentlyPlayed = props => {
             })
             .join(', ');
 
-            return <Song trackName={song.track.name} cover={song.track.album.images[0].url} artists={artists} key={index}/>
+            return (
+                <Song
+                    trackName={song.track.name}
+                    cover={song.track.album.images.length ? song.track.album.images[0].url : null}
+                    artists={artists}
+                    key={index}/>
+            )
         })
     }
     return (
+        props.error.errorPage === 'RecentlyPlayed'
+        ? <Error data={props.error} />
+        :
         <div className={classes.RecentlyPlayed}>
             {displayedSongs}
         </div>

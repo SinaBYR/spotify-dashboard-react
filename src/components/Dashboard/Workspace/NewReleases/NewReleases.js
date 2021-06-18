@@ -6,6 +6,7 @@ import axios from 'axios';
 import AlbumSongs from '../Albums/AlbumSongs/AlbumSongs';
 import AlbumSkeleton from '../../../UI/Skeletons/AlbumSkeleton/AlbumSkeleton';
 import { BsFillXSquareFill } from 'react-icons/bs';
+import Error from '../../../Errors/Error/Error';
 
 const NewReleases = props => {
 
@@ -17,10 +18,21 @@ const NewReleases = props => {
             prev: null
         }
     });
+    const [error, setError] = useState({
+        errorPage: '',
+        body: null,
+        code: null
+    });
 
     const fetchAlbumSongsHandler = (albumID, urlPath) => {
+
         setLoading(true);
-        
+        setError({
+            errorPage: '',
+            body: null,
+            code: null
+        });
+
         const CancelToken = axios.CancelToken;
         const source = CancelToken.source();
         const url = urlPath || ('https://api.spotify.com/v1/albums/' + albumID);
@@ -46,6 +58,11 @@ const NewReleases = props => {
                 setLoading(false);
             })
             .catch(err => {
+                setError({
+                    errorPage: 'NewReleases',
+                    body: err.response.data.error.message,
+                    code: err.response.data.error.status
+                });
                 console.log(err);
                 setLoading(false);
             })
@@ -75,12 +92,11 @@ const NewReleases = props => {
                 <Link to={"/dashboard/new/" + album.id + "/" + album.name} key={index + album.name}>
                     <div className={classes.Album}>
                         <div className={classes.Cover}>
-                            <img src={album.images[0].url} alt="cover"/>
+                            <img src={album.images.length ? album.images[0].url : null} alt="cover"/>
                         </div>
                         <div className={classes.Info}>
                             <div className={classes.Title}>{album.name}</div>
                             <div className={classes.Artist}>{artists}</div>
-                            {/* <div className={classes.Date}>{new Date(album.album.release_date).getFullYear()}</div> */}
                         </div>
                         <div className={classes.Options}>
                             <BsFillXSquareFill />
@@ -92,11 +108,14 @@ const NewReleases = props => {
     }
 
     return (
+        props.error.errorPage === 'NewReleases'
+        ? <Error data={props.error} />
+        :
         <div className={classes.NewReleases}>
             <Switch>
                 <Route
                     path="/dashboard/new/:albumID/:albumName"
-                    render={(props) => <AlbumSongs fetchSongs={fetchAlbumSongsHandler} data={songsData} {...props} loading={loading} />}/>
+                    render={(props) => <AlbumSongs fetchSongs={fetchAlbumSongsHandler} data={songsData} {...props} loading={loading} error={error} />}/>
                 <Route path="/dashboard/new">
                     {displayedAlbums}
                 </Route>

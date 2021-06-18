@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import classes from './AlbumSongs.module.css';
 import Song from '../../LikedSongs/Song/Song';
 import SongSkeleton from '../../../../UI/Skeletons/SongSkeleton/SongSkeleton';
+import Error from '../../../../Errors/Error/Error';
 
 const AlbumSongs = props => {
 
@@ -28,6 +29,9 @@ const AlbumSongs = props => {
         })
     };
     return (
+        props.error.errorPage === 'AlbumSongs'
+        ? <Error data={props.error}/>
+        : 
         <div>
             <h2 style={{textAlign: 'left'}}>{props.match.params.albumName}</h2>
             <div className={classes.AlbumSongs}>

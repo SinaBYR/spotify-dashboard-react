@@ -1,8 +1,8 @@
 import React from 'react';
 import classes from './Artists.module.css';
 import { useEffect } from 'react';
-import { BsFillXSquareFill } from 'react-icons/bs';
 import ArtistSkeleton from '../../../UI/Skeletons/ArtistSkeleton/ArtistSkeleton';
+import Error from '../../../Errors/Error/Error';
 
 const Artists = props  => {
     useEffect(() => {
@@ -24,19 +24,18 @@ const Artists = props  => {
         displayedArtists = props.data.artists.map((artist, index) => {
             return (
                 <div className={classes.Artist} key={index + artist.name}>
-                    {/* {displayedArtists} */}
                     <div className={classes.Avatar}>
-                        <img src={artist.images[0].url} alt="cover"/>
+                        <img src={artist.images.length ? artist.images[0].url : null} alt="cover"/>
                     </div>
                     <div className={classes.Name}>{artist.name}</div>
-                    {/* <div className={classes.Options}>
-                        <BsFillXSquareFill />
-                    </div> */}
                 </div>
             )
         })
     }
     return (
+        props.error.errorPage === 'Artists'
+        ? <Error data={props.error} />
+        :
         <React.Fragment>
             <div className={classes.Artists}>
                 {displayedArtists}
