@@ -1,0 +1,161 @@
+.Navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width:100%;
+    height: 100%;
+    background-color: #f58634;
+    background-color: #ff7d9d;
+    
+    color: #042338;
+    padding: 0 1rem;
+    box-shadow: 0 0 10px #042338;
+    user-select: none;
+}
+.NavLinks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+.NavigationLink {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 0.5rem;
+    cursor: pointer;
+}
+.NavigationLink:hover {
+    background-color: #fc688d;
+}
+.Logo {
+    font-size: 1.2rem;
+}
+.Plus {
+    background-color: #042338;
+    color: #f58634;
+    color: #ff7d9d;
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+}
+.ProfilePic {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 1.5rem;
+    font-size: 1.1rem;
+    z-index: 9999;
+}
+.ProfilePic img {
+    display: block;
+    /* height: 80%; */
+    width: 50px;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid #042338;
+    border-radius: 50%;
+    cursor: pointer;
+}
+.ProfileMenu {
+    position: absolute;
+    top: 65px;
+    right: 10px;
+    /* height: 50px; */
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    /* align-items: center; */
+    background-color: #ff7d9d;
+    padding: 0.5rem;
+    /* border-radius: 5px; */
+    box-shadow: 0 0 4px #042338;
+
+}
+.ProfileMenuOpen {
+    display: flex;
+    /* grid-template-columns: 1fr 1fr; */
+    animation: animation1 ease 0.5s;
+}
+@keyframes animation1 {
+    0% {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    25% {
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.Username {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 2rem;
+    font-size: 1.2rem;
+    text-align: center;
+    /* border-bottom: 1px solid black   ; */
+    /* border-radius: 5px; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    user-select: text;
+}
+.Profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #042338;
+    color: #042338;
+    color: white;
+    padding: 0.6rem 0.9rem;
+    margin: 0.1rem 0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    /* border-radius: 5px; */
+}
+.Profile:active {
+    transform: scale(0.95);
+}
+.Logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(233, 2, 2);
+    color: #042338;
+    color: white;
+    padding: 0.6rem 0.9rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    /* border-radius: 5px; */
+}
+.Logout:active {
+    transform: scale(0.95);
+}
+
+/* Desktop */
+@media (min-width: 500px) and (min-height: 400px) {
+    .Navigation {
+        height: auto;
+    }
+    .ProfileMenu {
+        top: 65px;
+        right: 10px;
+        width: 200px;
+    }
+}
+/* Mobile Landspace */
+@media (max-width: 820px) and (max-height: 400px) {
+    .ProfilePic img {
+        width: auto;
+        height: 90%;
+    }
+}
