@@ -43,7 +43,7 @@ const App = () => {
         setBackdropOpenAlt(false);
         setIsLoggedIn(false);
         setUserAvatar(null);
-        window.location.href = 'http://localhost:3000';
+        window.location.href = 'https://sinabyr-spotify-dashboard.onrender.com';
         localStorage.clear();
         setUsername(null);
     }
