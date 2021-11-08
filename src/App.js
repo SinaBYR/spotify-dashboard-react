@@ -34,10 +34,10 @@ const App = () => {
         const encodedScopes = encodeURIComponent(scopes.join(' '));
         const url = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&response_type=token&redirect_uri=https://sinabyr-spotify-dashboard.onrender.com/redirecting&scope=${encodedScopes}`;
 
+        // https://sinabyr-spotify-dashboard.onrender.com/redirecting
+        // http://localhost:3000/redirecting
         window.location.href = url;
     }
-
-    console.log(process.env.REACT_APP_SPOTIFY_CLIENT_ID)
 
     const logoutHandler = () => {
         setBackdropOpenAlt(false);
