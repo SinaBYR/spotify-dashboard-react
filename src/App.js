@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Switch, Route, Redirect, BrowserRouter as Router } from 'react-router-dom';
 import classes from "./App.module.css";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Switch, Route } from 'react-router-dom';
 import Dashboard from './components/Dashboard/Dashboard';
 import Navigation from "./components/Navigation/Navigation";
 import Redirecting from './components/Redirecting/Redirecting';
 import Landing from './components/Landing/Landing';
-import axios from 'axios';
 import Profile from './components/Profile/Profile';
 import PageNotFound from './components/Errors/NotFound/PageNotFound';
 
 
-const App = props => {
+const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [accessToken, setAccessToken] = useState(null);
     const [expirationDate, setExpirationDate] = useState(null);
@@ -32,11 +32,12 @@ const App = props => {
             'user-read-recently-played'
         ];
         const encodedScopes = encodeURIComponent(scopes.join(' '));
-        console.log(encodedScopes);
-        const url = `https://accounts.spotify.com/authorize?client_id=72f545293f9f4ac593711f8bd95d66c5&response_type=token&redirect_uri=http://localhost:3000/redirecting&scope=${encodedScopes}`;
+        const url = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&response_type=token&redirect_uri=https://sinabyr-spotify-dashboard.onrender.com/redirecting&scope=${encodedScopes}`;
 
         window.location.href = url;
     }
+
+    console.log(process.env.REACT_APP_SPOTIFY_CLIENT_ID)
 
     const logoutHandler = () => {
         setBackdropOpenAlt(false);
@@ -121,7 +122,6 @@ const App = props => {
                 />
                 <Route path="/redirecting" component={Redirecting}/>
                 {routes}
-            {/* <Footer /> */}
         </div>
     )
 }
