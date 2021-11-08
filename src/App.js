@@ -1,7 +1,7 @@
 import classes from "./App.module.css";
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Dashboard from './components/Dashboard/Dashboard';
 import Navigation from "./components/Navigation/Navigation";
 import Redirecting from './components/Redirecting/Redirecting';
@@ -104,7 +104,10 @@ const App = () => {
                 <Switch>
                     <Route path="/profile" render={() => <Profile profile={profile}/>}/>
                     <Route path="/dashboard/:id" render={() => <Dashboard accessToken={accessToken}/>}/>
-                    <Route path="/" render={() => <PageNotFound isAuthorized={isLoggedIn}/>}/>
+                    <Route path="/">
+                        <Redirect to="/dashboard/liked"/>
+                    </Route>
+                    <Route path="*" render={() => <PageNotFound isAuthorized={isLoggedIn}/>}/>
                 </Switch>
         )
     }
