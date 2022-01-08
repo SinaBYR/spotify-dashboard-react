@@ -32,9 +32,10 @@ const App = () => {
             'user-read-recently-played'
         ];
         const encodedScopes = encodeURIComponent(scopes.join(' '));
-        const url = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&response_type=token&redirect_uri=https://sinabyr-spotify-dashboard.onrender.com/redirecting&scope=${encodedScopes}`;
+        const url = `https://accounts.spotify.com/authorize?client_id=${process.env.REACT_APP_SPOTIFY_CLIENT_ID}&response_type=token&redirect_uri=https://sinabyr-spotify-dashboard.vercel.app/redirecting&scope=${encodedScopes}`;
 
         // https://sinabyr-spotify-dashboard.onrender.com/redirecting
+        // https://sinabyr-spotify-dashboard.vercel.app/
         // http://localhost:3000/redirecting
         window.location.href = url;
     }
@@ -43,7 +44,7 @@ const App = () => {
         setBackdropOpenAlt(false);
         setIsLoggedIn(false);
         setUserAvatar(null);
-        window.location.href = 'https://sinabyr-spotify-dashboard.onrender.com';
+        window.location.href = 'https://sinabyr-spotify-dashboard.vercel.app';
         localStorage.clear();
         setUsername(null);
     }
